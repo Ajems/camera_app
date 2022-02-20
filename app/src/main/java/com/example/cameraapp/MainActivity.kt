@@ -17,6 +17,9 @@ import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
+
+private  const val KEY_INDEX = "index"
+
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
@@ -31,6 +34,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val cntPhoto = savedInstanceState?.getInt(KEY_INDEX, 0) ?: 0
+        appViewModel.cntPhotos = cntPhoto
 
         outputDirectory = getOutputDirectory()
         binding.cntPhotosView.text = appViewModel.cntPhotos.toString()
@@ -150,4 +156,10 @@ class MainActivity : AppCompatActivity() {
             }
         )
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(KEY_INDEX, appViewModel.cntPhotos)
+    }
+
 }
